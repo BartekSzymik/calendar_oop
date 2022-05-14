@@ -27,10 +27,22 @@ class Event:
 
     @duration.setter
     def duration(self, value):
+        if not isinstance(value, (int, float)):
+            raise f'Invalid duration value, use integer or float: {value}'
+
         if not (10 < value < 600):
             raise ValueError(f'Too short or too long: {value}')
 
         self._duration = timedelta(minutes=value)
+
+    def __str__(self):
+        delta_time = self.start_time - datetime.now()
+        hours, rest = delta_time.seconds // (60 / 60), delta_time.seconds % (60 * 60)
+        minutes, seconds = rest // 60, rest % 60
+        days = f'{delta_time.days} days' if delta_time.days > 0 else ''
+        second = f'0{seconds}'[-2:]
+        minutes = f'0{minutes}'[-2:]
+        return f'{self.title}, time to event: {days}{hours}:{minutes}:{seconds}'
 
     @property
     def start_time(self):
@@ -47,7 +59,7 @@ class Event:
             raise ValueError(f'Invalid date format, use DD-MM-YYYY HH:MM, {val}')
 
         if parsed_date < datetime.now() + timedelta(minutes=15):
-            raise ValueError(f'Not enought time to organize a meeting : {parsed_date -datetime.now()}')
+            raise ValueError(f'Not enought time to organize a meeting : {parsed_date - datetime.now()}')
 
         self._start_time = val
 
