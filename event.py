@@ -44,6 +44,9 @@ class Event:
         minutes = f'0{minutes}'[-2:]
         return f'{self.title}, time to event: {days}{hours}:{minutes}:{seconds}'
 
+    def __repr__(self):
+        return f"{type(self.__name__)}('{self.title}', '{self.location}', '{self.start_time}',{self.duration.total_seconds() /60}, '{self.owner}', {self.participants:'%d-%m-%Y %H:%M'})"
+
     @property
     def start_time(self):
         return self._start_time
@@ -54,7 +57,7 @@ class Event:
             raise TypeError(f'Invalid value: {val}')
 
         try:
-            parsed_date = datetime.strptime(val, '%d-%m-%Y %H:')
+            parsed_date = datetime.strptime(val, '%d-%m-%Y %H:%M')
         except ValueError:
             raise ValueError(f'Invalid date format, use DD-MM-YYYY HH:MM, {val}')
 
@@ -64,5 +67,6 @@ class Event:
         self._start_time = val
 
 
-e = Event('42', '', '14-05-2022 15:10', '11', '', '')
-print(e.start_time)
+e = Event('Piwo', 'Wwa', '16-05-2022 11:50', 11.5, 'Ala', ['Ela', 'Ola'])
+print(repr(e))
+
