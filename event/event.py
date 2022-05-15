@@ -67,5 +67,5 @@ class Event:
 
         self._start_time = parsed_date
 
-e = Event('Piwo', 'Wwa', '16-05-2022 11:50', 11.5, 'Ala', ['Ela', 'Ola'])
-print(repr(e))
+# e = Event('Piwo', 'Wwa', '16-05-2022 11:50', 11.5, 'Ala', ['Ela', 'Ola'])
+# print(repr(e))
