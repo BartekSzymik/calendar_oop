@@ -41,10 +41,18 @@ class Calendar:
     def events(self, val):
         if not isinstance(val, list):
             raise TypeError('Something is no yes')
+<<<<<<< HEAD
         self.events
+=======
+        self._events = val
+>>>>>>> 025a398 (final version of project)
 
     def __str__(self):
         return f'{type(self).__name__}: {self.events}'
 
     def __repr__(self):
+<<<<<<< HEAD
         return f'{type(self).__name__}({self.events})'
+=======
+        return f'{type(self).__name__}({self.events})'
+>>>>>>> 025a398 (final version of project)
