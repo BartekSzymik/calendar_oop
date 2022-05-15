@@ -31,13 +31,13 @@ class Event:
             raise f'Invalid duration value, use integer or float: {value}'
 
         if not (10 < value < 600):
-            raise ValueError(f'Too short or too long: {value}')
+            raise ValueError(f'Too short or too long: {value} minutes')
 
         self._duration = timedelta(minutes=value)
 
     def __str__(self):
         delta_time = self.start_time - datetime.now()
-        hours, rest = delta_time.seconds // (60 / 60), delta_time.seconds % (60 * 60)
+        hours, rest = delta_time.seconds // (60 * 60), delta_time.seconds % (60 * 60)
         minutes, seconds = rest // 60, rest % 60
         days = f'{delta_time.days} days' if delta_time.days > 0 else ''
         second = f'0{seconds}'[-2:]
@@ -45,7 +45,8 @@ class Event:
         return f'{self.title}, time to event: {days}{hours}:{minutes}:{seconds}'
 
     def __repr__(self):
-        return f"{type(self.__name__)}('{self.title}', '{self.location}', '{self.start_time}',{self.duration.total_seconds() /60}, '{self.owner}', {self.participants:'%d-%m-%Y %H:%M'})"
+        return f"{type(self).__name__}('{self.title}', '{self.location}', {self.start_time:%d-%m-%Y %H:%M}, " \
+               f"{self.duration.total_seconds() / 60}, '{self.owner}', {self.participants})"
 
     @property
     def start_time(self):
@@ -62,11 +63,9 @@ class Event:
             raise ValueError(f'Invalid date format, use DD-MM-YYYY HH:MM, {val}')
 
         if parsed_date < datetime.now() + timedelta(minutes=15):
-            raise ValueError(f'Not enought time to organize a meeting : {parsed_date - datetime.now()}')
+            raise ValueError(f'Not enough time to organize a meeting : {parsed_date - datetime.now()}')
 
-        self._start_time = val
+        self._start_time = parsed_date
 
-
-# e = Event('Piwo', 'Wwa', '16-05-2022 11:50', 11.5, 'Ala', ['Ela', 'Ola'])
-# print(repr(e))
-
+e = Event('Piwo', 'Wwa', '16-05-2022 11:50', 11.5, 'Ala', ['Ela', 'Ola'])
+print(repr(e))
